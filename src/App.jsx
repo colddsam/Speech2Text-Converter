@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import copy from 'clipboard-copy';
 import { recBtn, microphoneBtn, scanBtn, sendBtn, sentBtn } from "./assets/images";
-import './app.css';
+import './App.css';
 
 const App = () => {
     const [isCopied, setCopy] = useState(false);
