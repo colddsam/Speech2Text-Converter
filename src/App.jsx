@@ -30,6 +30,7 @@ const App = () => {
             await copy(editedTranscript); 
             console.log('Text copied: ', editedTranscript);
             setCopy(true);
+            resetTranscript();
             let delayInMilliseconds = 1000; 
 
             setTimeout(function () {
@@ -59,10 +60,10 @@ const App = () => {
                         value={editedTranscript}
                         onChange={(e) => setEditedTranscript(e.target.value)} 
                     />
-                    <button onClick={handleStartListening}><img src={listening ? recBtn : microphoneBtn} alt="rec" /></button>
-                    <button><img src={scanBtn} alt="scan" /></button>
+                    <button className="inside" onClick={handleStartListening}><img src={listening ? recBtn : microphoneBtn} alt="rec" /></button>
+                    <button className="inside"><img src={scanBtn} alt="scan" /></button>
                 </div>
-                <button onClick={handleCopyToText}><img src={isCopied?sentBtn:sendBtn} alt="send"/></button>
+                <button className="outside" onClick={handleCopyToText}><img src={isCopied?sentBtn:sendBtn} alt="send"/></button>
             </div>
         </div>
     );

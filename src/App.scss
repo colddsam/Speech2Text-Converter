@@ -1,4 +1,4 @@
-.app{
+.app{  
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -51,8 +51,8 @@
             border-radius: 15px;
             display: flex;
             flex-direction: row;
-            justify-content: start;
             align-items: center;
+            flex: start;
             overflow: hidden;
             input {
                 padding: 5px;
@@ -68,9 +68,10 @@
                     font-size: medium;
                 }
                 }
-            button{
+            .inside{
                 border: 0px solid;
                 margin: 0px;
+                background-color: transparent;
                 img{
                     margin: 0px;
                     height: 35px;
@@ -83,7 +84,7 @@
                 }
             }
         }
-        button{
+        .outside{
             height: 100%;
             border: 0px solid;
             background-color: transparent;

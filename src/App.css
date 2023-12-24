@@ -59,8 +59,8 @@
   border-radius: 15px;
   display: flex;
   flex-direction: row;
-  justify-content: start;
   align-items: center;
+  flex: start;
   overflow: hidden;
 }
 .app .line .container input {
@@ -79,35 +79,36 @@
     font-size: medium;
   }
 }
-.app .line .container button {
+.app .line .container .inside {
   border: 0px solid;
   margin: 0px;
+  background-color: transparent;
 }
-.app .line .container button img {
+.app .line .container .inside img {
   margin: 0px;
   height: 35px;
   width: 35px;
   cursor: pointer;
 }
 @media screen and (max-width: 720px) {
-  .app .line .container button img {
+  .app .line .container .inside img {
     height: 25px;
     width: 25px;
   }
 }
-.app .line button {
+.app .line .outside {
   height: 100%;
   border: 0px solid;
   background-color: transparent;
 }
-.app .line button img {
+.app .line .outside img {
   height: 30px;
   width: 30px;
   margin-left: 5px;
   cursor: pointer;
 }
 @media screen and (max-width: 720px) {
-  .app .line button img {
+  .app .line .outside img {
     height: 25px;
     width: 25px;
   }
