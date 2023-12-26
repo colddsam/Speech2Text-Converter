@@ -1,70 +1,81 @@
-# Getting Started with Create React App
+ # Speech2Text Converter
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React application that converts audio speech to text and passes it into a web service for processing.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+* Convert audio speech to text using the Web Speech API.
+* Translate the text into a different language using the Google Translate API.
+* Generate a response to the text using the Google Generative AI API.
+* Copy the response to the clipboard.
 
-### `npm start`
+## Installation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```
+git clone https://github.com/colddsam/speech2text-converter.git
+cd speech2text-converter
+npm install
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Usage
 
-### `npm test`
+1. Start the development server:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+npm start
+```
 
-### `npm run build`
+2. Open http://localhost:3000 in your browser.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. Click the microphone button to start listening.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4. Speak into the microphone.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+5. The text of what you said will appear in the text box.
 
-### `npm run eject`
+6. Click the translate button to translate the text into a different language.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+7. The translation will appear in the text box.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+8. Click the send button to generate a response to the text.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+9. The response will appear in the text box.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+10. Click the copy button to copy the response to the clipboard.
 
-## Learn More
+## How it works
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The application uses the Web Speech API to convert audio speech to text. The text is then translated into a different language using the Google Translate API. The translation is then passed to the Google Generative AI API to generate a response. The response is then displayed in the text box and can be copied to the clipboard.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Components
 
-### Code Splitting
+### App.jsx
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+The main component of the application. It renders the user interface and handles the state of the application.
 
-### Analyzing the Bundle Size
+* The `handleStartListening` function starts listening for audio input.
+* The `handleStopListening` function stops listening for audio input.
+* The `handleTranslateVoice` function translates the audio input into text.
+* The `handleTranslateText` function translates the text into a different language.
+* The `GenRes` function generates a response to the text.
+* The `handleCopy` function copies the text to the clipboard.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### HoverButton.jsx
 
-### Making a Progressive Web App
+A component that renders a button that displays a tooltip when hovered over.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+* The `setCurrentLanguage` function sets the current language of the application.
 
-### Advanced Configuration
+### GenRes.jsx
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+A component that generates a response to the text using the Google Generative AI API.
 
-### Deployment
+* The `GenRes` function generates the response.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Contributing
 
-### `npm run build` fails to minify
+Contributions are welcome! Please read the [contributing guidelines](https://github.com/your-username/speech2text-converter/blob/main/CONTRIBUTING.md) before submitting a pull request.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## License
+
+This project is licensed under the MIT License.

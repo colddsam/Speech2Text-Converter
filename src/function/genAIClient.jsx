@@ -4,10 +4,11 @@ const {
     HarmBlockThreshold,
 } = require("@google/generative-ai");
 
+const genAI = new GoogleGenerativeAI(process.env.REACT_APP_GEN_AI_KEY);
+const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+
 const GenRes = async (prompt ,setTextSrc) => {
   try {
-        const genAI = new GoogleGenerativeAI(process.env.REACT_APP_GEN_AI_KEY);
-        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
         const generationConfig = {
             temperature: 0.9,
             topK: 1,
