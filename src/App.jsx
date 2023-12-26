@@ -12,6 +12,7 @@ const App = () => {
     const [language, setCurrentLanguage] = useState('english');
     const [audioSrc, setAudioSrc] = useState(null);
     const [textSrc, setTextSrc] = useState('');
+    const apiKeyLink = process.env.REACT_APP_API_KEY_LINK;
 
     const {
         transcript,
@@ -66,7 +67,7 @@ const App = () => {
 
     const handleTranslateVoice = async () => {
         try {
-            const response = await fetch(`http://127.0.0.1:8000/text/?txt=${editedTranscript}&lang=${language}`);
+            const response = await fetch(`${apiKeyLink}/text/?txt=${editedTranscript}&lang=${language}`);
             const blob = await response.blob();
             setAudioSrc(URL.createObjectURL(blob));
         } catch (error) {
@@ -76,7 +77,7 @@ const App = () => {
 
     const handleTranslateText = async () => {
         try {
-            const response = await fetch(`http://127.0.0.1:8000/translate/?txt=${editedTranscript}`);
+            const response = await fetch(`${apiKeyLink}/translate/?txt=${editedTranscript}`);
             const data = await response.json();
             console.log(data.translate);
             setTextSrc(data.translate);

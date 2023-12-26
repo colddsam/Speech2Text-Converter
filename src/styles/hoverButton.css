@@ -1,9 +1,15 @@
 .dropdown {
+  box-sizing: border-box;
   height: auto;
   width: 100px;
   margin: 0px;
   display: inline-block;
   position: relative;
+}
+@media screen and (max-width: 720px) {
+  .dropdown {
+    width: 50px;
+  }
 }
 .dropdown .hoverButton {
   box-sizing: border-box;
@@ -18,9 +24,22 @@
   justify-content: center;
   align-items: center;
 }
+@media screen and (max-width: 720px) {
+  .dropdown .hoverButton {
+    height: 40px;
+  }
+}
 .dropdown .hoverButton img {
+  margin: 0px;
+  padding: 0px;
   height: 40px;
   width: 40px;
+}
+@media screen and (max-width: 720px) {
+  .dropdown .hoverButton img {
+    height: 30px;
+    width: 30px;
+  }
 }
 .dropdown .contentBox {
   height: 200px;
