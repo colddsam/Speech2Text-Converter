@@ -4,7 +4,8 @@ import copy from 'clipboard-copy';
 import { recBtn, microphoneBtn, scanBtn, sendBtn, sentBtn } from "./assets/images";
 import './styles/App.css';
 import HoverButton from "./components/hoverButton";
-import {speechConvert } from './languages/language';
+import { speechConvert } from './languages/language';
+import GenRes from "./function/genAIClient";
 
 const App = () => {
     const [isCopied, setCopy] = useState(false);
@@ -79,8 +80,9 @@ const App = () => {
         try {
             const response = await fetch(`${apiKeyLink}/translate/?txt=${editedTranscript}`);
             const data = await response.json();
-            console.log(data.translate);
-            setTextSrc(data.translate);
+            const txt = data.translate;
+            console.log(txt);
+            await GenRes(txt, setTextSrc );
         }catch(error){
             console.error('Error fetching data: ', error);
         }
@@ -94,7 +96,7 @@ const App = () => {
         <div className="app">
             <div className="title">Speech2Text Converter</div>
             <div className="parag">This Project is for converting audio speech to text and passing it into our web service for processing.</div>
-            <div className="translator" style={transCont}>{textSrc}</div>
+            <div className="translator" style={transCont}>Query Result : {textSrc}</div>
             <div className="allInOne">
                 <HoverButton setCurrentLanguage={ setCurrentLanguage} />
                 <div className="line">
