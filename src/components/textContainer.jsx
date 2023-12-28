@@ -48,7 +48,12 @@ const TextContainer = ({setSubmit,textSrc,setGeneratedText,generatedText,setCall
 
     const getFileExtension = (filename) => {
         const ext = filename.slice(((filename.lastIndexOf(".") - 1) >>> 0) + 2);
-        setExtension(ext);
+        if (ext === 'jpg') {
+            setExtension('jpeg')
+        }
+        else {
+            setExtension(ext);   
+        }
     };
 
     const handleUploadedImage = (e) => {
@@ -71,7 +76,7 @@ const TextContainer = ({setSubmit,textSrc,setGeneratedText,generatedText,setCall
     return (
         <div className="translator">
             <div className="imageSection">
-                <input type="file" onChange={handleUploadedImage} accept="image/*" name="image" id="inputButton" style={inputDisplay} />
+                <input type="file" onChange={handleUploadedImage} accept="image/png, image/jpeg, image/webp, image/heic, image/heif" name="image" id="inputButton" style={inputDisplay} />
                 <div className="outerImageDiv">
                     <img tabIndex="0" role="button" className="uploadedimage" onClick={buttonClickEvent} src={uploadedImage} alt="uploadImage" />
                 </div>
