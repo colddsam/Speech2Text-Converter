@@ -6,6 +6,5 @@ export const scanBtn = require('./scan.gif');
 export const language = require('./language.png');
 export const cancelGif = require('./cancel.gif');
 export const cancelPng = require('./cancel.png');
-export const test = require('./test.jpeg');
 export const uploadButton = require('./upload.png');
 export const successPng = require('./success.png');
