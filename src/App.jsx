@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from "react";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import copy from 'clipboard-copy';
-import { recBtn, microphoneBtn, scanBtn, sendBtn, sentBtn } from "./assets/images";
+
+import { recBtn, microphoneBtn, sendBtn, sentBtn } from "./assets/images";
 import './styles/App.css';
+
 import HoverButton from "./components/hoverButton";
+import TextContainer from "./components/textContainer";
+
 import { speechConvert } from './languages/language';
-import GenRes from "./function/genAIClient";
+
 
 const App = () => {
-    const [isCopied, setCopy] = useState(false);
+    const [isSubmited, setSubmit] = useState(true);
     const [editedTranscript, setEditedTranscript] = useState('');
     const [language, setCurrentLanguage] = useState('english');
     const [audioSrc, setAudioSrc] = useState(null);
     const [textSrc, setTextSrc] = useState('');
-    const apiKeyLink = process.env.REACT_APP_API_KEY_LINK;
+    const [callModel, setCallModel] = useState(false);
+    const [generatedText,setGeneratedText]=useState('');
+
 
     const {
         transcript,
@@ -36,27 +42,21 @@ const App = () => {
 
     const handleSubmit = async () => {
         setAudioSrc(null);
-        setTextSrc('');
         try {
-            setCopy(true);
+            setSubmit(false);
             await handleTranslateVoice();
             await handleTranslateText();
-            await copy(textSrc); 
-            console.log('Text copied: ', textSrc);
+            setCallModel(true);
+            await copy(generatedText); 
+            console.log('Text copied: ', generatedText);
             resetTranscript();
-            let delayInMilliseconds = 1000; 
-
-            setTimeout(function () {
-                setCopy(false);
-                
-            }, delayInMilliseconds);
+            
         } catch (err) {
             console.error(err);
         }
     };
 
     const handleStartListening = () => {
-        setCopy(false);
         setAudioSrc(null);
         setTextSrc('');
         SpeechRecognition.startListening({ continuous: true, language: speechConvert[language] });
@@ -68,7 +68,7 @@ const App = () => {
 
     const handleTranslateVoice = async () => {
         try {
-            const response = await fetch(`${apiKeyLink}/text/?txt=${editedTranscript}&lang=${language}`);
+            const response = await fetch(`${process.env.REACT_APP_API_KEY_LINK}/text/?txt=${editedTranscript}&lang=${language}`);
             const blob = await response.blob();
             setAudioSrc(URL.createObjectURL(blob));
         } catch (error) {
@@ -78,25 +78,20 @@ const App = () => {
 
     const handleTranslateText = async () => {
         try {
-            const response = await fetch(`${apiKeyLink}/translate/?txt=${editedTranscript}`);
+            const response = await fetch(`${process.env.REACT_APP_API_KEY_LINK}/translate/?txt=${editedTranscript}`);
             const data = await response.json();
-            const txt = data.translate;
-            console.log(txt);
-            await GenRes(txt, setTextSrc );
+            setTextSrc(data.translate)
         }catch(error){
             console.error('Error fetching data: ', error);
         }
     };
 
-    const transCont = {
-        display: textSrc===''?'none':'block',
-    };
 
     return (
         <div className="app">
             <div className="title">Speech2Text Converter</div>
             <div className="parag">This Project is for converting audio speech to text and passing it into our web service for processing.</div>
-            <div className="translator" style={transCont}>Query Result : {textSrc}</div>
+            <TextContainer setSubmit={setSubmit} textSrc={textSrc} setGeneratedText={setGeneratedText} generatedText={generatedText} setCallModel={ setCallModel} callModel={callModel} />
             <div className="allInOne">
                 <HoverButton setCurrentLanguage={ setCurrentLanguage} />
                 <div className="line">
@@ -109,9 +104,8 @@ const App = () => {
                             onChange={(e) => setEditedTranscript(e.target.value)} 
                         />
                         <button className="inside" onClick={listening?handleStopListening:handleStartListening}><img src={listening ? recBtn : microphoneBtn} alt="rec" /></button>
-                        <button className="inside"><img src={scanBtn} alt="scan" /></button>
                     </div>
-                    <button className="outside" onClick={handleSubmit}><img src={isCopied?sentBtn:sendBtn} alt="send"/></button>
+                    <button className="outside" onClick={handleSubmit}><img src={isSubmited?sentBtn:sendBtn} alt="send"/></button>
                 </div>
             </div>
 

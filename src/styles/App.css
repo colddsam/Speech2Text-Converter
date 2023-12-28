@@ -37,24 +37,6 @@
     width: 300px;
   }
 }
-.app .translator {
-  display: block;
-  border-radius: 15px;
-  background-color: #9AD0C2;
-  box-sizing: border-box;
-  width: 750px;
-  font-size: small;
-  height: auto;
-  padding: 20px;
-  margin-bottom: 20px;
-  text-align: justify;
-}
-@media screen and (max-width: 720px) {
-  .app .translator {
-    width: 300px;
-    font-size: x-small;
-  }
-}
 .app .allInOne {
   padding: 0px;
   width: 100%;

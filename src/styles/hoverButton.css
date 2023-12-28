@@ -42,7 +42,7 @@
   }
 }
 .dropdown .contentBox {
-  height: 200px;
+  height: 110px;
   width: 200px;
   padding-left: 10px;
   padding-right: 10px;
@@ -69,6 +69,12 @@
   height: 50px;
   font-size: medium;
   font-weight: 600;
+}
+@media screen and (max-width: 720px) {
+  .dropdown .contentBox .language {
+    font-size: smaller;
+    font-weight: 500;
+  }
 }
 .dropdown .contentBox :active {
   background-color: #f4d407;
