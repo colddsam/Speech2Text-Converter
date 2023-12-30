@@ -7,7 +7,7 @@ const genAI = new GoogleGenerativeAI(apiKeyLink);
 const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
 
 const generationConfig = {
-    temperature: 0.9,
+    temperature: 1,
     topK: 1,
     topP: 1,
     maxOutputTokens: 2048,
@@ -32,8 +32,8 @@ const safetySettings = [
     },
 ];
 
-const GenPro = async (textSrc,setGeneratedText,setSubmit,setCallModel) => {
-    const parts = GenAiPro(textSrc);
+const GenPro = async (text,setGeneratedText) => {
+    const parts = GenAiPro(text);
     console.log(parts);
     try {
         const result = await model.generateContent({
@@ -42,16 +42,11 @@ const GenPro = async (textSrc,setGeneratedText,setSubmit,setCallModel) => {
             safetySettings,
         });
         const response = result.response;
-        console.log(response.text());
         setGeneratedText(response.text());
-        console.log(textSrc);
     } catch (error) {
         console.error(error);
         setGeneratedText('none');
-    } finally {
-        setSubmit(true);
-        setCallModel(false);
-    }
+    } 
 }
 
 export default GenPro;

@@ -8,3 +8,5 @@ export const cancelGif = require('./cancel.gif');
 export const cancelPng = require('./cancel.png');
 export const uploadButton = require('./upload.png');
 export const successPng = require('./success.png');
+export const cameraPng = require('./camera.png');
+export const swapPng = require('./swap.png');

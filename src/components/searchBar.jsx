@@ -1,13 +1,23 @@
-import React,{useEffect} from "react";
+import React, { useEffect, useState } from "react";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import { speechConvert } from "../languages/language";
-import copy from 'clipboard-copy';
-import { sentBtn,sendBtn,recBtn,microphoneBtn } from "../assets/images";
+import { sentBtn, sendBtn, recBtn, microphoneBtn, cameraPng } from "../assets/images";
 import HoverButton from "./hoverButton";
 import { handleTranslateText, handleTranslateVoice } from '../function/textSpeech';
-import '../styles/searchBox.css'
+import GenPro from "../function/genAIPro";
+import GenVis from "../function/genAIVision";
 
-const SearchBox = ({language,generatedText,editedTranscript,isSubmited,setEditedTranscript,setAudioSrc,setTextSrc,setSubmit,setCallModel,setCurrentLanguage}) => {
+import '../styles/searchBox.css';
+
+const SearchBox = ({ generatedText, setAudioSrc, setCameraState, extension, file, setGeneratedText }) => {
+
+    const [isSubmited, setSubmit] = useState(true);
+    const [language, setCurrentLanguage] = useState('english');
+    const [editedTranscript, setEditedTranscript] = useState('');
+
+    const handleInputTextChange = (event) => {
+        setEditedTranscript(event.target.value);
+    }
 
     const {
         transcript,
@@ -17,8 +27,9 @@ const SearchBox = ({language,generatedText,editedTranscript,isSubmited,setEdited
     } = useSpeechRecognition();
 
     useEffect(() => {
-        setEditedTranscript(transcript); 
-    });
+        setEditedTranscript(transcript);
+
+    }, [transcript]);
 
     if (!browserSupportsSpeechRecognition) {
         return (
@@ -30,7 +41,6 @@ const SearchBox = ({language,generatedText,editedTranscript,isSubmited,setEdited
 
     const handleStartListening = () => {
         setAudioSrc(null);
-        setTextSrc('');
         SpeechRecognition.startListening({ continuous: true, language: speechConvert[language] });
     };
 
@@ -38,30 +48,45 @@ const SearchBox = ({language,generatedText,editedTranscript,isSubmited,setEdited
         SpeechRecognition.stopListening();
     };
 
+    const handleCameraState = () => {
+        setCameraState(true);
+    }
+
     const handleSubmit = async () => {
-        setAudioSrc(null);
+    setAudioSrc(null);
+    setSubmit(false);
+        let text = 'find the product';
         try {
-            setSubmit(false);
-            await handleTranslateVoice(editedTranscript,language,setAudioSrc);
-            await handleTranslateText(editedTranscript,setTextSrc);
-            setCallModel(true);
-            await copy(generatedText); 
-            console.log('Text copied: ', generatedText);
-            resetTranscript();
-            
-        } catch (err) {
-            console.error(err);
+            if (editedTranscript !== '') {
+            await handleTranslateVoice(editedTranscript, language, setAudioSrc);
+            text = await handleTranslateText(editedTranscript);
         }
-    };
+        if (file === '') {
+            await GenPro(text, setGeneratedText);
+        } else {
+            await GenVis(text,extension,file,setGeneratedText);
+        }
+
+        resetTranscript();
+        setSubmit(true);
+    } catch (err) {
+        console.error(err);
+        setSubmit(true); 
+    }
+};
+
 
     return (
         <div className="allInOne">
-            <HoverButton setCurrentLanguage={ setCurrentLanguage} />
+            <HoverButton setCurrentLanguage={setCurrentLanguage} />
             <div className="line">
                 <div className="container">
-                    <input type="text" name="text" id="text" value={editedTranscript} onChange={(e) => (e.target.value)} />
+                    <input type="text" name="text" id="text" value={editedTranscript} onChange={handleInputTextChange} />
                     <button className="inside" onClick={listening ? handleStopListening : handleStartListening}>
                         <img src={listening ? recBtn : microphoneBtn} alt="rec" />
+                    </button>
+                    <button className="inside" onClick={handleCameraState}>
+                        <img src={cameraPng} alt="camera" />
                     </button>
                 </div>
                 <button className="outside" onClick={handleSubmit}>
@@ -69,7 +94,7 @@ const SearchBox = ({language,generatedText,editedTranscript,isSubmited,setEdited
                 </button>
             </div>
         </div>
-    )
+    );
 }
 
 export default SearchBox;

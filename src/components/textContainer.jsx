@@ -1,28 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import '../styles/TextContainer.css';
-import GenVis from "../function/genAIVision";
-import GenPro from "../function/genAIPro";
 import { cancelGif, cancelPng, uploadButton, successPng } from '../assets/images';
 
-const TextContainer = ({setSubmit,textSrc,setGeneratedText,generatedText,setCallModel,callModel }) => {
-    
-    const [changeCancelButton, setchangeCancelButton] = useState(successPng);
-    const [cancelState, setcancelState] = useState(false);
-    const [uploadedImage, setUploadedImage] = useState(uploadButton);
-    const [file, setFile] = useState('');
-    const [extension, setExtension] = useState('jpeg');
-
-    useEffect(() => {
-        if (callModel) {
-            if (file === '') {
-                GenPro(textSrc,setGeneratedText,setSubmit,setCallModel);
-            }
-            else {
-                GenVis(textSrc,extension,file,setGeneratedText,setSubmit,setCallModel);
-            }
-        }
-    })
-
+const TextContainer = ({changeCancelButton, setchangeCancelButton,setcancelState,cancelState,setExtension,setFile,uploadedImage,setUploadedImage,generatedText }) => {
     
 
     const inputDisplay = {

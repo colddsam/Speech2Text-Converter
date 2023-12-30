@@ -1,25 +1,37 @@
 import React, { useState } from "react";
+import { uploadButton,successPng } from "./assets/images";
 
 import './styles/App.css';
 
 import SearchBox from "./components/searchBar";
 import TextContainer from "./components/textContainer";
+import CameraBox from "./components/cameraBox";
 
 const App = () => {
-    const [isSubmited, setSubmit] = useState(true);
-    const [editedTranscript, setEditedTranscript] = useState('');
-    const [language, setCurrentLanguage] = useState('english');
     const [audioSrc, setAudioSrc] = useState(null);
-    const [textSrc, setTextSrc] = useState('');
-    const [callModel, setCallModel] = useState(false);
-    const [generatedText,setGeneratedText]=useState('');
+    const [generatedText, setGeneratedText] = useState('');
+    const [cameraState, setCameraState] = useState(false);
+    const [uploadedImage, setUploadedImage] = useState(uploadButton);
+    const [file, setFile] = useState('');
+    const [extension, setExtension] = useState('jpeg');
+    const [cancelState, setcancelState] = useState(false);    
+    const [changeCancelButton, setchangeCancelButton] = useState(successPng);
 
     return (
         <div className="app">
             <div className="title">Speech2Text Converter</div>
+
             <div className="parag">This Project is for converting audio speech to text and passing it into our web service for processing.</div>
-            <TextContainer setSubmit={setSubmit} textSrc={textSrc} setGeneratedText={setGeneratedText} generatedText={generatedText} setCallModel={ setCallModel} callModel={callModel} />
-            <SearchBox language={language} generatedText={generatedText} editedTranscript={editedTranscript} isSubmited={isSubmited} setEditedTranscript={setEditedTranscript} setAudioSrc={setAudioSrc} setTextSrc={setTextSrc} setSubmit={setSubmit}  setCallModel={setCallModel} setCurrentLanguage={setCurrentLanguage}/>
+            
+            <TextContainer setchangeCancelButton={setchangeCancelButton} changeCancelButton={changeCancelButton} setcancelState={setcancelState} cancelState={cancelState} setExtension={setExtension} setFile={setFile} uploadedImage={uploadedImage} setUploadedImage={setUploadedImage} generatedText={generatedText} />
+
+            {
+                cameraState ? (
+                    <CameraBox setchangeCancelButton={setchangeCancelButton} setFile={setFile} setcancelState={setcancelState} setCameraState={ setCameraState} setUploadedImage={setUploadedImage} />
+                ):null
+            }
+            <SearchBox  generatedText={generatedText} setAudioSrc={setAudioSrc} setCameraState={setCameraState} extension={extension} file={file} setGeneratedText={setGeneratedText}/>
+            
             {audioSrc && (
                 <div>
                     <audio controls>

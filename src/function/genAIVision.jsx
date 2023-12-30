@@ -20,8 +20,8 @@ const safetySettings = [
     { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
 ];
 
-const GenVis = async (textSrc,extension,file,setGeneratedText,setSubmit,setCallModel) => {
-    const parts = genProVision(textSrc, extension, file);
+const GenVis = async (text,extension,file,setGeneratedText) => {
+    const parts = genProVision(text, extension, file);
     try {
         const result = await model.generateContent({
             contents: [{ role: "user", parts }],
@@ -31,13 +31,9 @@ const GenVis = async (textSrc,extension,file,setGeneratedText,setSubmit,setCallM
         const response = result.response;
         console.log(response.text());
         setGeneratedText(response.text());
-        console.log(textSrc);
     } catch (error) {
         console.error(error);
         setGeneratedText('none');
-    } finally {
-        setSubmit(true);
-        setCallModel(false);
     }
 }
 

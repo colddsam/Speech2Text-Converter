@@ -8,14 +8,17 @@
         }
     };
 
-    const handleTranslateText = async (editedTranscript,setTextSrc) => {
+const handleTranslateText = async (editedTranscript) => {
+    let text = '';
         try {
             const response = await fetch(`${process.env.REACT_APP_API_KEY_LINK}/translate/?txt=${editedTranscript}`);
             const data = await response.json();
-            setTextSrc(data.translate)
+            text = data.translate;
         }catch(error){
             console.error('Error fetching data: ', error);
-        }
+            text = 'purchase the product';
+    }
+    return text;
     };
 
     export {handleTranslateText, handleTranslateVoice};
